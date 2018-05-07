@@ -87,7 +87,10 @@ class AdminUserController extends Controller
     public function edit($id)
     {
         //show the form with particular blog with old value
-        return view('admin.users.edit');
+        //return "hello from edit controller";
+
+        $user = User::findOrFail($id);
+        return view('admin.users.edit', compact("user"));
     }
 
     /**

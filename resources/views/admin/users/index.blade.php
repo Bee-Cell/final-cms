@@ -15,6 +15,7 @@
 		            <th>Is Active</th>
 		            <th>Created</th>
 		            <th>Updated</th>
+		            <th>EDIT || DELETE</th>
 		            
 		           
 		        </tr>
@@ -41,6 +42,9 @@
 	                <td>{{ $user->is_active == 1 ? 'ACTIVE' : 'N|ACTIVE' }}</td>
 	                <td>{{ $user->created_at->diffForHumans() }}</td> 
 	                <td>{{ $user->updated_at->diffForHumans() }}</td>
+
+	                <td>
+	                	<a href="{{ route("users.edit", $user->id) }}">EDIT</a>|| <a href="{{ route("users.destroy", $user->id) }}">DELETE</a></td>
 
 	                    
 		        </tr>
