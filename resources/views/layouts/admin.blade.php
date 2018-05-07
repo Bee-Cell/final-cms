@@ -14,6 +14,7 @@
     <!-- Bootstrap Core CSS -->
     <!-- assets function of laravel will look through the public di -->
     <link href="{{asset('css/app.css')}}" rel="stylesheet">
+    <link href="{{asset('css/custom.css')}}" rel="stylesheet">
    
 
 

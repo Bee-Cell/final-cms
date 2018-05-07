@@ -31,4 +31,6 @@ mix.styles([
 		'resources/assets/js/sb-admin-2.js'
 
 
-		],'./public/js/app.js');
+		],'./public/js/app.js')
+
+	.sass('resources/assets/sass/app.scss', 'public/css/custom.css');
