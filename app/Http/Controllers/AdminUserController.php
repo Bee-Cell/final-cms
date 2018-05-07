@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
+use App\Role;
+use App\Http\Requests\UserRequest;
 
 class AdminUserController extends Controller
 {
@@ -13,9 +16,9 @@ class AdminUserController extends Controller
      */
     public function index()
     {
-        //
-
-        return view('admin.users.index');
+        //  List of Blogs
+        $users = User::all();
+        return view('admin.users.index', compact('users'));
     }
 
     /**
@@ -26,8 +29,12 @@ class AdminUserController extends Controller
     //new
     public function create()
     {
-        //
-        return view('admin.users.new');
+        //  Show new blog form
+        //returns list of items from the database id whould be secondd parameters.
+
+        //roles to pass the roles from database
+        $roles = Role::pluck("name", "id")->all();
+        return view('admin.users.new', compact("roles"));
 
     }
 
@@ -37,9 +44,14 @@ class AdminUserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
         //Create the New blog from the form and redirects somewhere
+        // return $request->all(); // the see the post value from subbmiit
+
+        User::create($request->all());
+
+        return redirect(route("users.index"));
 
     }
 

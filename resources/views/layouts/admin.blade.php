@@ -86,10 +86,10 @@
                         <a href="#"><i class="fa fa-wrench fa-fw"></i> Users<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="panels-wells.html">All Users</a>
+                                <a href="{{ route('users.index') }}">All Users</a>
                             </li>
                             <li>
-                                <a href="buttons.html">Create User</a>
+                                <a href="{{ route('users.create') }}">Create User</a>
                             </li>
                         </ul>
                         <!-- /.nav-second-level -->
@@ -231,7 +231,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Dashboard</h1>
+                    
                     @yield('content')
                 </div>
                 <!-- /.col-lg-12 -->
