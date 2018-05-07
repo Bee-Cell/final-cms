@@ -63,7 +63,7 @@ class AdminUserController extends Controller
         $input["password"] = bcrypt($request->password);
         User::create($input);
 
-       // return redirect(route("users.index"));
+       return redirect(route("users.index"));
 
     }
 
