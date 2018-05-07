@@ -40,7 +40,7 @@
 
 					<div class="form-group">
 						{!! Form::label('file', 'Files') !!}
-						{!! Form::file("file",null, ["class" => "form-control" , "placeholder" => "Enter an Password "]) !!}
+						{!! Form::file("photo_id",null, ["class" => "form-control" , "placeholder" => "Enter an Password "]) !!}
 					</div>
 
 
