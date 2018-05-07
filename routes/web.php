@@ -18,3 +18,10 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::resource('admin/users', 'AdminUserController'); //create all routes
+
+
+Route::get('/admin', function(){
+	return view("layouts.admin");
+});
