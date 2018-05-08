@@ -8,6 +8,7 @@ use App\Role;
 use App\Photo;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\UserEditRequest;
+use Illuminate\Support\Facades\Session;
 
 class AdminUserController extends Controller
 {
@@ -36,6 +37,7 @@ class AdminUserController extends Controller
 
         //roles to pass the roles from database
         $roles = Role::pluck("name", "id")->all();
+
         return view('admin.users.new', compact("roles"));
 
     }
@@ -70,6 +72,7 @@ class AdminUserController extends Controller
         }
         
         User::create($input);
+        Session::flash("inserted_user" , "New User is succesfully created");
 
        return redirect(route("users.index"));
 
@@ -146,5 +149,16 @@ class AdminUserController extends Controller
     public function destroy($id)
     {
         //delete the particular blog
+
+        //for displaying we can use from the request->sesion >>> inject request or session() >>>global
+        $user = User::findOrFail($id);
+        unlink(public_path().$user->photo->file_path);
+
+        $user->delete();
+        //The Global Session Helper
+        Session::flash("deleted_user" , "The Selected User is deleted");
+
+        return redirect(route("users.index"));
+
     }
 }

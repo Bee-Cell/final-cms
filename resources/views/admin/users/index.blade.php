@@ -3,6 +3,19 @@
 @section('content')
 
 		<h1 class="page-header">Users</h1>
+		@if( Session::has("deleted_user"))
+		
+			<div class="alert alert-danger" role="alert">
+			  <p class="">{{ session("deleted_user") }}</p>
+			</div>
+
+		@elseif( Session::has("inserted_user"))
+			
+			<div class="alert alert-info" role="alert">
+			  <p class="">{{ session("inserted_user") }}</p>
+			</div>
+			
+		@endif
 
 		<table class="table table-bordered table-hover">
 		    <thead>
@@ -15,7 +28,8 @@
 		            <th>Is Active</th>
 		            <th>Created</th>
 		            <th>Updated</th>
-		            <th>EDIT || DELETE</th>
+		            <th>EDIT </th>
+		            <th>DELETE</th>
 		            
 		           
 		        </tr>
@@ -29,7 +43,7 @@
 	                <td>{{ $user->id }}</td>
 
 	                @if($user->photo)
-						<td> <img height="50" src="{{ $user->photo->file_path }}" alt="user_image"> 
+						<td> <img height="50" src="../{{ $user->photo->file_path }}" alt="user_image"> 
 						</td>
 	                @else()
 		                <td>NO IMAGE YET</td>
@@ -44,7 +58,19 @@
 	                <td>{{ $user->updated_at->diffForHumans() }}</td>
 
 	                <td>
-	                	<a href="{{ route("users.edit", $user->id) }}">EDIT</a>|| <a href="{{ route("users.destroy", $user->id) }}">DELETE</a></td>
+	                	<a class="btn btn-info" href="{{ route("users.edit", $user->id) }}">EDIT</a> 
+	                	
+        			</td>
+        			<td>
+        				{!! Form::open(["action" => ["AdminUserController@destroy", $user->id] , "method" => "DELETE"]) !!}
+        	
+        				{{ csrf_field() }}
+        				
+        				{!! Form::submit("DELETE" , ["class" => "btn btn-danger"]) !!}
+        				
+        				{!! Form::close() !!}
+        			</td>
+
 
 	                    
 		        </tr>
