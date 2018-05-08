@@ -119,10 +119,11 @@ class AdminUserController extends Controller
         $input = $request->all(); //requested get in array form
 
         if($file = $request->file("photo_id")){
-
+            unlink(public_path().$user->photo->file_path); //php function
             $name = time().$file->getClientOriginalName();
             $file->move("images", $name);
 
+            //find the particular phtot and update
             $photo = Photo::findOrFail($user->photo_id);
             $photo->file_path = $name;
             $photo->save();
@@ -137,6 +138,7 @@ class AdminUserController extends Controller
         }
         
         $user->update($input);
+        Session::flash("updated_user" , "Existing User is succesfully Updated");
         return redirect(route("users.index"));
     }
 
@@ -152,7 +154,12 @@ class AdminUserController extends Controller
 
         //for displaying we can use from the request->sesion >>> inject request or session() >>>global
         $user = User::findOrFail($id);
-        unlink(public_path().$user->photo->file_path);
+        unlink(public_path().$user->photo->file_path); //php function
+        
+        if(!empty($user->photo_id)){
+            $photo = Photo::findOrFail($user->photo_id);
+            $photo->delete();
+        }
 
         $user->delete();
         //The Global Session Helper

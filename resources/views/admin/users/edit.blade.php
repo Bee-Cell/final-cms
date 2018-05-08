@@ -5,7 +5,7 @@
 
 		<div class="row">
 			<div class="col-sm-3">
-				<img src="../../{{ $user->photo ? $user->photo->file_path : "../images/1525718244Capture.PNG" }}" alt="The user image" class="img-responsive img-rounded">
+				<img src="../../..{{ $user->photo ? $user->photo->file_path : "../images/1525718244Capture.PNG" }}" alt="The user image" class="img-responsive img-rounded">
 				
 			</div>
 			

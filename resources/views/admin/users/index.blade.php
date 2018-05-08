@@ -14,6 +14,13 @@
 			<div class="alert alert-info" role="alert">
 			  <p class="">{{ session("inserted_user") }}</p>
 			</div>
+
+
+		@elseif(Session::has("updated_user"))
+
+			<div class="alert alert-info" role="alert">
+			  <p class="">{{ session("updated_user") }}</p>
+			</div>
 			
 		@endif
 
