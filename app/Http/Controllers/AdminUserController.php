@@ -7,6 +7,7 @@ use App\User;
 use App\Role;
 use App\Photo;
 use App\Http\Requests\UserRequest;
+use App\Http\Requests\UserEditRequest;
 
 class AdminUserController extends Controller
 {
@@ -60,7 +61,14 @@ class AdminUserController extends Controller
 
             $input["photo_id"] = $photo->id;
         }
-        $input["password"] = bcrypt($request->password);
+
+        if(trim($request->password) == ""){
+            $input = $request->except("password");
+        }
+        else{
+           $input["password"] = bcrypt($request->password); 
+        }
+        
         User::create($input);
 
        return redirect(route("users.index"));
@@ -87,10 +95,11 @@ class AdminUserController extends Controller
     public function edit($id)
     {
         //show the form with particular blog with old value
-        //return "hello from edit controller";
+        // return "hello from edit controller with user_id:".$id;
 
         $user = User::findOrFail($id);
-        return view('admin.users.edit', compact("user"));
+        $roles = Role::pluck("name", "id")->all();
+        return view('admin.users.edit', compact("user", "roles"));
     }
 
     /**
@@ -100,9 +109,32 @@ class AdminUserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserEditRequest $request, $id)
     {
         //Update form with new value; update the particularblog and then redirect somewhere
+        $user = User::findOrFail($id);
+        $input = $request->all(); //requested get in array form
+
+        if($file = $request->file("photo_id")){
+
+            $name = time().$file->getClientOriginalName();
+            $file->move("images", $name);
+
+            $photo = Photo::findOrFail($user->photo_id);
+            $photo->file_path = $name;
+            $photo->save();
+            $input["photo_id"] = $photo->id;
+        }
+
+        if( trim($request->password) == "" ){
+           $input["password"] = $user->password;
+        }
+        else{
+            $input["password"] = bcrypt($request->password); 
+        }
+        
+        $user->update($input);
+        return redirect(route("users.index"));
     }
 
     /**
