@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-=======
+
 <?php
 
 namespace App;
@@ -56,4 +55,4 @@ class User extends Authenticatable
     }
 
 }
->>>>>>> user-section-security
+
