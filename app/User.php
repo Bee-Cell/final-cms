@@ -30,12 +30,14 @@ class User extends Authenticatable
 
 
 //realtion of role
+    // one user has one role
     public function role(){
         return $this->belongsTo('App\Role');
     }
 
 
 //relation of photo
+    // one user has one picture
     public function photo() {
         return $this->belongsTo('App\Photo');
     }
@@ -51,6 +53,12 @@ class User extends Authenticatable
         }
 
         return false;
+    }
+
+ // one post has one Author(user) 
+// one Author(user) have many posts
+    public function posts(){
+        return $this->hasMany("App\Post");
     }
 
 }

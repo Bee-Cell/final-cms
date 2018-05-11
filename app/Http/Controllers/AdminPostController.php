@@ -4,6 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Post;
+use App\Http\Requests\PostCreateRequest;
+use App\User;
+use App\Photo;
+use Illuminate\Support\Facades\Auth;
+use App\Category;
+use Illuminate\Support\Facades\Session;
 
 class AdminPostController extends Controller
 {
@@ -26,9 +32,10 @@ class AdminPostController extends Controller
      */
     public function create()
     {
-        //
+        // $roles = Role::pluck("name", "id")->all();
+        $categories = Category::Pluck("category_name", "id")->all();
 
-        return view("admin.posts.new");
+        return view("admin.posts.new", compact("categories"));
     }
 
     /**
@@ -37,9 +44,26 @@ class AdminPostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PostCreateRequest $request)
     {
-        //Post::create([]);
+        //post hs users so we need to pull out the current user
+        $input = $request->all();
+        $user = Auth::user();
+        $input["user_id"] = $user->id; //current user and user id
+        
+        if($file = $request->file("photo_id")){
+
+            $name = time().$file->getClientOriginalName();
+            $file->move("images", $name);
+            $photo = Photo::create(["file_path" => $name ]);
+
+            $input["photo_id"] = $photo->id;
+
+        }
+        Post::create($input);
+        Session::flash("inserted_post" , "New Post is succesfully created");
+        return redirect(route("posts.index"));
+
     }
 
     /**
